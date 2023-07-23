@@ -4,10 +4,15 @@ import Navbar from "../Components/Navbar";
 const IncomePage = () => {
   const [income, setIncome] = useState("");
   const [incomeList, setIncomeList] = useState([]);
+  const [totalIncome, setTotalIncome] = useState(0);
 
   const incomeSubmit = () => {
-    setIncomeList([...incomeList, income]);
-    setIncome("");
+    if (income.trim() !== "") {
+      const incomeAmount = parseFloat(income);
+      setIncomeList([...incomeList, incomeAmount]);
+      setTotalIncome(totalIncome + incomeAmount);
+      setIncome("");
+    }
   };
 
   return (
@@ -15,7 +20,7 @@ const IncomePage = () => {
       <Navbar />
       <div className="flex justify-center items-center h-screen">
         <div className="card bg-base-100 shadow-xl">
-        <h3 className="text-xl  text-black-800  mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-black-400  inline-flex items-center justify-center">Income</h3>
+          <h3 className="text-xl text-black-800 mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-black-400 inline-flex items-center justify-center">Income</h3>
           <div className="card-body mb-5">
             <div className="flex gap-3">
               <input
@@ -44,6 +49,12 @@ const IncomePage = () => {
                   </div>
                 );
               })}
+
+            {incomeList.length > 0 && (
+              <h3 className="mt-3">
+                Total Income: {totalIncome.toFixed(2)}
+              </h3>
+            )}
           </div>
         </div>
       </div>

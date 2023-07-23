@@ -2,20 +2,25 @@ import React, { useState } from "react";
 import Navbar from "../Components/Navbar";
 
 const ExpensePage = () => {
-    const [expense, setExpense] = useState("");
-    const [expenseList, setExpenseList] = useState([]);
-  
-    const expenseSubmit = () => {
-      setExpenseList([...expenseList, expense]);
+  const [expense, setExpense] = useState("");
+  const [expenseList, setExpenseList] = useState([]);
+  const [totalExpense, setTotalExpense] = useState(0);
+
+  const expenseSubmit = () => {
+    if (expense.trim() !== "") {
+      const expenseAmount = parseFloat(expense);
+      setExpenseList([...expenseList, expenseAmount]);
+      setTotalExpense(totalExpense + expenseAmount);
       setExpense("");
-    };
-  
+    }
+  };
+
   return (
     <div>
-        <Navbar />
+      <Navbar />
       <div className="flex justify-center items-center h-screen">
         <div className="card bg-base-100 shadow-xl">
-        <h3 className="text-xl  text-black-800  mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-black-400  inline-flex items-center justify-center">Expense</h3>
+          <h3 className="text-xl text-black-800 mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-black-400 inline-flex items-center justify-center">Expense</h3>
           <div className="card-body mb-5">
             <div className="flex gap-3">
               <input
@@ -44,6 +49,12 @@ const ExpensePage = () => {
                   </div>
                 );
               })}
+
+            {expenseList.length > 0 && (
+              <h3 className="mt-3">
+                Total Expense: {totalExpense.toFixed(2)}
+              </h3>
+            )}
           </div>
         </div>
       </div>
